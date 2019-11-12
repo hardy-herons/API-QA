@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../config.js');
 const Schema = mongoose.Schema;
 
 const schema = new Schema(

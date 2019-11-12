@@ -1,9 +1,8 @@
-const mongoose = require('mongoose');
+const myDatabaseConnection = require('mongoose');
+// function connectToDb() {
+myDatabaseConnection.connect('mongodb://localhost:27017/SDCTest', {
+  useNewUrlParser: true
+});
+// }
 
-function connectToDb() {
-  return mongoose.connect('mongodb://localhost:27017/SDCTest', {
-    useNewUrlParser: true
-  });
-}
-
-module.exports = connectToDb;
+module.exports = myDatabaseConnection;
