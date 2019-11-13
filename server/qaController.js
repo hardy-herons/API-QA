@@ -1,4 +1,3 @@
-// let Questions = require('../db/models/questions');
 let {
   questionData,
   answerData,
@@ -6,8 +5,11 @@ let {
   qHelpfulData,
   reportAData,
   reportQData,
-  addQData
-} = require('./qaModels');
+  addQData,
+  addAData,
+  answerPhotoData,
+  postQuestionData
+} = require("./qaModels");
 
 const qController = (req, res) => {
   questionData(req.params.product_id).exec((err, data) => {
@@ -16,7 +18,7 @@ const qController = (req, res) => {
       res.sendStatus(500);
     }
     let results = data.filter(question => {
-      return question['reported'] === 0;
+      return question["reported"] === 0;
     });
     let questions = { product_id: req.params.product_id, results: results };
     res.send(JSON.stringify(questions));
@@ -50,22 +52,31 @@ const qReportedController = (req, res) => {
   });
 };
 
-const addQController = (req, res) => {
-  addQData({
-    product_id: req.params.product_id,
-    body: req.body,
-    asker_email: req.body.email,
-    asker_name: req.body.name,
-    date: new Date()
-  }).exec((err, data) => {
-    console.log({ data });
+// const addQController = (req, res) => {
+//   addQData({
+//     product_id: req.params.product_id,
+//     body: req.body,
+//     asker_email: req.body.email,
+//     asker_name: req.body.name,
+//     date: new Date()
+//   })
+//     .then(data => {
+//       console.log({ dataInQController: data });
+//       res.status(200).send(`successfully posted ${data.name}'s question`, data);
+//     })
+//     .catch(err => {
+//       console.log(`error posting question`, err);
+//       res.status(500).send("error posting question", err);
+//     });
+// };
+
+const addQController = async (req, res) => {
+  await addQData(req.params.product_id, req.body).exec((err, data) => {
     if (err) {
-      console.log(`error posting question`, err);
-      res.status(500).send('error posting question', err);
-    } else {
-      console.log({ data });
-      res.send(`successfully posted ${data.name}'s question`, data);
+      console.log(err);
+      res.sendStatus(500);
     }
+    res.sendStatus(201);
   });
 };
 
@@ -76,7 +87,7 @@ const aController = (req, res) => {
       res.sendStatus(500);
     }
     let results = data.filter(answer => {
-      return answer['reported'] === 0;
+      return answer["reported"] === 0;
     });
     let answers = { question: req.params.question_id, results: results };
     res.send(JSON.stringify(answers));
@@ -108,6 +119,28 @@ const aReportedController = (req, res) => {
   });
 };
 
+const answerPhotoController = (req, res) => {
+  answerPhotoData(req.params.answer_id)
+    .then(results => {
+      console.log("successful query for answer photos", { results });
+      res.send(results);
+    })
+    .catch(err => {
+      console.log("could not query for photos", err);
+      res.sendStatus(500);
+    });
+};
+
+const addAController = async (req, res) => {
+  await addAData(req.params.question_id, req.body).exec((err, data) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+    res.sendStatus(201);
+  });
+};
+
 module.exports = {
   qController,
   aController,
@@ -115,5 +148,7 @@ module.exports = {
   aHelpfulController,
   aReportedController,
   qReportedController,
-  addQController
+  addQController,
+  answerPhotoController,
+  addAController
 };

@@ -1,6 +1,6 @@
-const path = require('path');
+const path = require("path");
 
-const readFile = require('../read-file.js');
+const readFile = require("../shop-box/read-file.js");
 
 //answers
 // readFile({
@@ -32,18 +32,18 @@ const readFile = require('../read-file.js');
 readFile({
   filepath: path.resolve(
     __dirname,
-    '../../../../../../Downloads/questions.csv'
+    "../../../../../../Downloads/questions.csv"
   ),
-  newFilepath: path.resolve(__dirname, './questionsCopy.csv'),
+  newFilepath: path.resolve(__dirname, "./questionsCopy.csv"),
   columns: [
-    'id',
-    'product_id',
-    'body',
-    'date_written',
-    'asker_name',
-    'asker_email',
-    'reported',
-    'helpful'
+    "id",
+    "product_id",
+    "body",
+    "date_written",
+    "asker_name",
+    "asker_email",
+    "reported",
+    "helpful"
   ],
   transformData: parsed => ({
     id: Number(parsed.id),
@@ -61,10 +61,10 @@ readFile({
 readFile({
   filepath: path.resolve(
     __dirname,
-    '../../../../../../Downloads/answers_photos.csv'
+    "../../../../../../Downloads/answers_photos.csv"
   ),
-  newFilepath: path.resolve(__dirname, './answersPhotosCopy.csv'),
-  columns: ['id', 'answer_id', 'url'],
+  newFilepath: path.resolve(__dirname, "./answersPhotosCopy.csv"),
+  columns: ["id", "answer_id", "url"],
   transformData: parsed => ({
     id: Number(parsed.id),
     answer_id: Number(parsed.answer_id),

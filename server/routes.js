@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const QARouter = express.Router();
 const {
   qController,
@@ -7,15 +7,19 @@ const {
   aHelpfulController,
   aReportedController,
   qReportedController,
-  addQController
-} = require('./qaController.js');
+  addQController,
+  answerPhotoController,
+  addAController
+} = require("./qaController.js.js");
 
-QARouter.get('/:product_id', qController);
-QARouter.get('/:question_id/answers', aController);
-QARouter.put('/question/:question_id/helpful', qHelpfulController);
-QARouter.put('/answer/:answer_id/helpful', aHelpfulController);
-QARouter.put('/question/:question_id/report', qReportedController);
-QARouter.put('/answer/:answer_id/report', aReportedController);
-QARouter.post('/:product_id', addQController);
+QARouter.get("/:product_id", qController);
+QARouter.get("/:question_id/answers", aController);
+QARouter.get("/:answer_id/answers/photos", answerPhotoController);
+QARouter.put("/question/:question_id/helpful", qHelpfulController);
+QARouter.put("/answer/:answer_id/helpful", aHelpfulController);
+QARouter.put("/question/:question_id/report", qReportedController);
+QARouter.put("/answer/:answer_id/report", aReportedController);
+QARouter.post("/:product_id", addQController);
+QARouter.post("/:question_id/answers", addAController);
 
 module.exports = QARouter;
