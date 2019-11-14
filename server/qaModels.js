@@ -1,4 +1,4 @@
-const Question = require("../db/models/questions.js");
+const Question = require("../db/models/questions");
 const Answers = require("../db/models/answers.js");
 const Photos = require("../db/models/photos.js");
 

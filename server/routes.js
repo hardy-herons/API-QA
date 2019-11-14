@@ -10,7 +10,7 @@ const {
   addQController,
   answerPhotoController,
   addAController
-} = require("./qaController.js.js");
+} = require("./qaController.js");
 
 QARouter.get("/:product_id", qController);
 QARouter.get("/:question_id/answers", aController);

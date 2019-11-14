@@ -1,0 +1,32 @@
+{
+  "name": "SDC",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "csv-parser": "^2.3.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.10",
+    "ndjson": "^1.5.0",
+    "nodemon": "^1.19.4",
+    "split2": "^3.1.1",
+    "through2": "^3.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hardy-herons/API-QA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hardy-herons/API-QA/issues"
+  },
+  "homepage": "https://github.com/hardy-herons/API-QA#readme"
+}

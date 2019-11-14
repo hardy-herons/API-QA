@@ -20,6 +20,20 @@ const qController = (req, res) => {
     let results = data.filter(question => {
       return question["reported"] === 0;
     });
+
+    //do some logic to go through all questions w/oas
+    //promise.all or async for-in
+    // let results = questionswithoutanswer.map(async q => {
+    //   q.answers = await answerData(q.id);
+    //   console.log({ q });
+    //   return q;
+    // });
+    // let results = [];
+    // for (let q of questionswithoutanswer) {
+    // }
+    //make a new results array
+
+    //as you loop through questionsiwthout, push questionsWITHanswers to new results array
     let questions = { product_id: req.params.product_id, results: results };
     res.send(JSON.stringify(questions));
   });
