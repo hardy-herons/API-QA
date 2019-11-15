@@ -12,12 +12,12 @@ let {
 } = require("./qaModels");
 
 const qController = (req, res) => {
-  questionData(req.params.product_id).exec((err, data) => {
+  questionData(req.params.product_id).exec(async (err, data) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
     }
-    let results = data.filter(question => {
+    let results = await data.filter(question => {
       return question["reported"] === 0;
     });
 
@@ -30,8 +30,21 @@ const qController = (req, res) => {
     // });
     // let results = [];
     // for (let q of questionswithoutanswer) {
+    //   // let answers = await answerData(q.id);
+    //   q.answer = await answerData(q.id);
+    //   // console.log(q.answer);
+    //   results.push(q);
     // }
     //make a new results array
+
+    // let responses = [];
+    // before("Make the inital request to a single id", async () => {
+    //   const multipleProducts = [1, 50, 150, 500, 2000];
+    //   for (let id of multipleProducts) {
+    //     let response = await chakram.get(`http://localhost:3000/products/${id}`);
+    //     responses.push(response);
+    //   }
+    //   return responses;
 
     //as you loop through questionsiwthout, push questionsWITHanswers to new results array
     let questions = { product_id: req.params.product_id, results: results };

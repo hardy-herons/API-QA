@@ -1,6 +1,6 @@
-const myDatabaseConnection = require('mongoose');
+const myDatabaseConnection = require("mongoose");
 
-myDatabaseConnection.connect('mongodb://localhost:27017/SDCTest', {
+myDatabaseConnection.connect("mongodb://18.218.179.129:27017/SDC", {
   useNewUrlParser: true
 });
 

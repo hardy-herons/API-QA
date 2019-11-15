@@ -5,8 +5,8 @@ const parse = require("csv-parse");
 const ndjson = require("ndjson");
 
 const connectToDb = require("./db/config");
-// const Answer = require('./db/models/answers');
-const AnswerPhotos = require("./db/models/photos");
+const Answer = require("./db/models/answers");
+// const AnswerPhotos = require("./db/models/photos");
 // const Questions = require('./db/models/questions');
 
 let row = 1;
@@ -72,7 +72,7 @@ const writeBatchToDb = through2.obj(async function(
   callback
 ) {
   try {
-    await AnswerPhotos.insertMany(chunkThatisABatch, {
+    await Answer.insertMany(chunkThatisABatch, {
       rawResult: true,
       ordered: false
     });

@@ -1,32 +1,32 @@
 const path = require("path");
 
-const readFile = require("../shop-box/read-file.js");
+const readFile = require("../read-file");
 
 //answers
-// readFile({
-//   filepath: path.resolve(__dirname, '../../../../../../Downloads/answers.csv'),
-//   newFilepath: path.resolve(__dirname, './answersCopy.csv'),
-//   columns: [
-//     'id',
-//     'question_id',
-//     'body',
-//     'date_written',
-//     'answerer_name',
-//     'answerer_email',
-//     'reported',
-//     'helpful'
-//   ],
-//   transformData: parsed => ({
-//     id: Number(parsed.id),
-//     question_id: Number(parsed.question_id),
-//     body: parsed.body,
-//     date: new Date(parsed.date_written),
-//     answerer_name: parsed.answerer_name,
-//     answerer_email: parsed.answerer_email,
-//     helpfulness: Number(parsed.helpful),
-//     reported: Number(parsed.reported)
-//   })
-// });
+readFile({
+  filepath: path.resolve(__dirname, "../../../../../../Downloads/answers.csv"),
+  newFilepath: path.resolve(__dirname, "./answersCopy.csv"),
+  columns: [
+    "id",
+    "question_id",
+    "body",
+    "date_written",
+    "answerer_name",
+    "answerer_email",
+    "reported",
+    "helpful"
+  ],
+  transformData: parsed => ({
+    id: Number(parsed.id),
+    question_id: Number(parsed.question_id),
+    body: parsed.body,
+    date: new Date(parsed.date_written),
+    answerer_name: parsed.answerer_name,
+    answerer_email: parsed.answerer_email,
+    helpfulness: Number(parsed.helpful),
+    reported: Number(parsed.reported)
+  })
+});
 
 // questions
 readFile({
