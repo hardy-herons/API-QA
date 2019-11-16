@@ -17,9 +17,10 @@ const qController = (req, res) => {
       console.log(err);
       res.sendStatus(500);
     }
-    let results = await data.filter(question => {
+    let QwoA = await data.filter(question => {
       return question["reported"] === 0;
     });
+    console.log(QwoA);
 
     //do some logic to go through all questions w/oas
     //promise.all or async for-in
@@ -28,23 +29,14 @@ const qController = (req, res) => {
     //   console.log({ q });
     //   return q;
     // });
-    // let results = [];
-    // for (let q of questionswithoutanswer) {
-    //   // let answers = await answerData(q.id);
-    //   q.answer = await answerData(q.id);
-    //   // console.log(q.answer);
-    //   results.push(q);
-    // }
+    let results = [];
+    for (let q of QwoA) {
+      // let answers = await answerData(q.id);
+      q["_doc"].answer = await answerData(q.id);
+      // console.log(q.answer);
+      results.push(q);
+    }
     //make a new results array
-
-    // let responses = [];
-    // before("Make the inital request to a single id", async () => {
-    //   const multipleProducts = [1, 50, 150, 500, 2000];
-    //   for (let id of multipleProducts) {
-    //     let response = await chakram.get(`http://localhost:3000/products/${id}`);
-    //     responses.push(response);
-    //   }
-    //   return responses;
 
     //as you loop through questionsiwthout, push questionsWITHanswers to new results array
     let questions = { product_id: req.params.product_id, results: results };
