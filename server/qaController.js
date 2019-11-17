@@ -18,6 +18,14 @@ const qController = (req, res) => {
       res.sendStatus(500);
     }
 
+    // made sure the indexes we re there and our queries were using those indexes
+    // we changed our queries to return us plain JS objects instead of heavy mongoose Documents // lean()
+    // when we were querying for answers we were waiting for the first answer from DB and then moving on to the next
+    // for (let q of QwoA) {
+    //   q["_doc"].answer = await answerData(q.id);
+    //   results.push(q);
+    // }
+
     let QwoA = data.filter(question => {
       return question["reported"] === 0;
     });
@@ -30,25 +38,29 @@ const qController = (req, res) => {
     //   return q;
     // });
 
+    //executing queries (promises) in parallel
     let answers = QwoA.map((ques, index) => {
-      return answerData(ques.id).then(data => ({ data, index }));
+      return answerData(ques.id).then(answers => ({
+        answers,
+        quesIndex: index
+      }));
     });
 
+    // promise all ensures all promises inside the answers array are resolved
     answers = await Promise.all(answers);
 
-    answers.forEach(({ data, index }) => {
+    answers.forEach(({ answers, quesIndex }) => {
       // we need to get the question element for this answer
-      QwoA[index].answer = data;
+      QwoA[quesIndex].answer = answers;
     });
 
-    // for (let q of QwoA) {
-    //   q["_doc"].answer = await answerData(q.id);
-    //   results.push(q);
-    // }
     //make a new results array
 
     //as you loop through questionsiwthout, push questionsWITHanswers to new results array
-    res.json({ product_id: req.params.product_id, results: QwoA });
+    res.json({
+      product_id: req.params.product_id,
+      results: QwoA
+    });
   });
 };
 

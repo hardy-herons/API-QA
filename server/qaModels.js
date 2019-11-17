@@ -4,7 +4,8 @@ const Photos = require("../db/models/photos.js");
 
 //question data
 const questionData = product_id => {
-  return Question.find({ product_id }).lean();
+  return Question.find({ product_id });
+  // .lean();
 };
 
 const qHelpfulData = question_id => {
@@ -72,7 +73,8 @@ const addQData = (product_id, req_body) => {
 
 //answer data
 const answerData = question_id => {
-  return Answers.find({ question_id }).lean();
+  return Answers.find({ question_id });
+  // .lean();
 };
 
 const aHelpfulData = answer_id => {
