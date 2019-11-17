@@ -17,10 +17,10 @@ const qController = (req, res) => {
       console.log(err);
       res.sendStatus(500);
     }
-    let QwoA = await data.filter(question => {
+
+    let QwoA = data.filter(question => {
       return question["reported"] === 0;
     });
-    console.log(QwoA);
 
     //do some logic to go through all questions w/oas
     //promise.all or async for-in
@@ -29,18 +29,26 @@ const qController = (req, res) => {
     //   console.log({ q });
     //   return q;
     // });
-    let results = [];
-    for (let q of QwoA) {
-      // let answers = await answerData(q.id);
-      q["_doc"].answer = await answerData(q.id);
-      // console.log(q.answer);
-      results.push(q);
-    }
+
+    let answers = QwoA.map((ques, index) => {
+      return answerData(ques.id).then(data => ({ data, index }));
+    });
+
+    answers = await Promise.all(answers);
+
+    answers.forEach(({ data, index }) => {
+      // we need to get the question element for this answer
+      QwoA[index].answer = data;
+    });
+
+    // for (let q of QwoA) {
+    //   q["_doc"].answer = await answerData(q.id);
+    //   results.push(q);
+    // }
     //make a new results array
 
     //as you loop through questionsiwthout, push questionsWITHanswers to new results array
-    let questions = { product_id: req.params.product_id, results: results };
-    res.send(JSON.stringify(questions));
+    res.json({ product_id: req.params.product_id, results: QwoA });
   });
 };
 
