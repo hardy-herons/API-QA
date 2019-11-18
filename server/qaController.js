@@ -57,6 +57,8 @@ const qController = (req, res) => {
     //make a new results array
 
     //as you loop through questionsiwthout, push questionsWITHanswers to new results array
+    //res.send(JSON.stringify()) is a heavy process. res.send is smart and knows what kind of data we are sending, whic is why we don't have to specify the data type.
+    // Since we know we are sending json, we can use res.json instead, which knows to stringify our data, and bears less of a load
     res.json({
       product_id: req.params.product_id,
       results: QwoA

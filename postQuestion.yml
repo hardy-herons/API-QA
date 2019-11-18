@@ -1,5 +1,5 @@
 config:
-  target: "http://localhost:3000"
+  target: "http://e-commerce-LB-1750271663.us-east-2.elb.amazonaws.com"
   phases:
     - duration: 7
       arrivalRate: 5
