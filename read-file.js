@@ -6,19 +6,10 @@ const ndjson = require("ndjson");
 
 const connectToDb = require("./db/config");
 const Answer = require("./db/models/answers");
-// const AnswerPhotos = require("./db/models/photos");
-// const Questions = require('./db/models/questions');
 
 let row = 1;
 const giveTransformStream = (columns, transformData) =>
   through2.obj(function(chunk, enc, callback) {
-    // our stream should
-    // get a chunk (chunk would be a csv row?? HOW: split())
-    // convert that chunk to string
-    // parse that string using csvParser
-    // get the data
-    // tranform the data
-    // pass the transformed data to the next stream in the pipeline
     let stringChunk = chunk.toString();
     parse(
       stringChunk,
@@ -37,27 +28,22 @@ const giveTransformStream = (columns, transformData) =>
           return callback();
         }
         const newStructure = transformData(parsed);
-        this.push(newStructure); // this will push our newly structured object to the next stage in the pipeline
+        this.push(newStructure);
         row++;
-        callback(); //this tells through2 that we are done with this chunk and it can give us the next chunk to transform
+        callback();
       }
     );
   });
-//Source =====>========READING===> DATA  pipe ()  DATA ===WRITING======> Des
-// to create a stream we can use 'stream' module which is a native module in nodejs
 
 const givePrepareBatchStream = () => {
   let batch = [];
   return through2.obj(function(chunkThatisAnObject, enc, callback) {
-    // if (!chunkThatisAnObject) {
-    //   this.push(batch);
-    // }
     batch.push(chunkThatisAnObject);
     if (batch.length === 500) {
-      this.push(batch); // this will push our newly prepared batch to the next stage in the pipeline (there are no return statements in streams)
+      this.push(batch);
       batch = [];
     }
-    callback(); //asks me (transformStream function) for another chunk of data...even if he doesn't have 500 yet
+    callback();
   });
 };
 
@@ -85,10 +71,9 @@ const writeBatchToDb = through2.obj(async function(
 });
 
 async function csvToNdjson({ filepath, newFilepath, columns, transformData }) {
-  // connect to the db
   await connectToDb();
   console.log("connected to mongo");
-  // at this point we are connected to the db
+
   const readStream = fs.createReadStream(filepath);
   const writeStream = fs.createWriteStream(newFilepath);
   const prepareBatchStream = givePrepareBatchStream();
@@ -97,8 +82,6 @@ async function csvToNdjson({ filepath, newFilepath, columns, transformData }) {
     .pipe(giveTransformStream(columns, transformData))
     .pipe(prepareBatchStream)
     .pipe(writeBatchToDb);
-  // .pipe(ndjson.serialize())
-  // .pipe(writeStream);
 }
 
 module.exports = csvToNdjson;

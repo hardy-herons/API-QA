@@ -1,4 +1,5 @@
-const mongoose = require('../config.js');
+const mongoose = require("../config.js");
+// const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const schema = new Schema(
@@ -21,4 +22,4 @@ const schema = new Schema(
   }
 );
 
-module.exports = mongoose.model('Answers', schema);
+module.exports = mongoose.model("Answers", schema);
